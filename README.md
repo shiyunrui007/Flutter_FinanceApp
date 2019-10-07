@@ -1,16 +1,7 @@
 # htjf_flutter_app
 
-A new Flutter application.
+金融类型的App，涉及了金融类app的基本功能。是本人边学习边开发的项目，希望大家可以一起进步。
 
-## Getting Started
+# v1.1.0
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+第一次提交，搭建了基本的页面和实现了一些点击，数据都是本地写死拟的，下一步改成mock数据。
