@@ -1,6 +1,7 @@
 import '../base/baseWidget.dart';
 import 'package:flutter/material.dart';
 import '../model/config.dart';
+import '../base/baseUiWidget.dart' as BaseUI;
 
 class MinePage extends BaseStatefulWidget{
   @override
@@ -15,7 +16,7 @@ class MinePage extends BaseStatefulWidget{
   State<StatefulWidget> setBody() {
     return MineState();
   }
-  
+
 }
 
 class MineState extends State{
@@ -25,9 +26,9 @@ class MineState extends State{
       child: Column(
         children: <Widget>[
           getMineHeader(),
-          getDividerLine(),
+          BaseUI.BaseUIWidget().getDividerLine(),
           getOpenArea(),
-          getDividerLine(),
+          BaseUI.BaseUIWidget().getDividerLine(),
           getItem("我的信息", "assets/images/ic_basic_info.png"),
           getDividerLineSine(),
           getItem("我的银行卡", "assets/images/ic_bank_card.png"),
@@ -39,7 +40,7 @@ class MineState extends State{
           getItem("风险测评", "assets/images/ic_risk_test.png"),
           getDividerLineSine(),
           getItem("监管账户查询", "assets/images/ic_employee_info.png"),
-          getDividerLine()
+          BaseUI.BaseUIWidget().getDividerLine()
         ],
       ),
     );

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import '../model/config.dart';
+import '../net/requestAPI.dart';
+import 'baseLoadingWidget.dart';
+import 'dart:async';
+
+//是否在请求网络加载数据 是的话展示loading框
+bool isLoading = false;
 
 abstract class BaseStatefulWidget extends StatelessWidget{
 
   //每个页面初始化的参数 自定义
   Config setConfig();
+
   State setBody();
 
   @override
@@ -39,13 +46,37 @@ abstract class BaseStatefulWidget extends StatelessWidget{
 }
 
 class _BaseStatefullWidget extends StatefulWidget{
-  final State state;
-  _BaseStatefullWidget(this.state);
+
+  State bodyWidget;
+
+  _BaseStatefullWidget(this.bodyWidget);
 
   @override
   State<StatefulWidget> createState() {
-    return state;
+    return bodyWidget;
   }
+}
+
+//获取loading的Widget
+Widget getLoadingWidget(){
+  return new Material(
+    type: MaterialType.transparency,
+    child: new Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          new CircularProgressIndicator(),
+          new Padding(
+            padding: const EdgeInsets.only(
+              top: 20.0,
+            ),
+            child: new Text("加载中...", style: TextStyle(color: Color(0xff333333)),),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 //跳转到下一个页面的函数
@@ -55,60 +86,15 @@ void switchNextPage(BuildContext context, Widget widget){
   }));
 }
 
-//分割线 居上边8dp
-Widget getDividerLineMargin() {
-  return Container(
-    height: 8.0,
-    margin: EdgeInsets.only(top: 16.0),
-    color: Color(0xfff4f4f4),
-  );
-}
+typedef RequestData = void Function(dynamic value);
 
-//分割线 没有margin
-Widget getDividerLine() {
-  return Container(
-    height: 8.0,
-    color: Color(0xfff4f4f4),
-  );
-}
-
-
-
-//UI相关
-Text getBaseText(String title){
-  return Text(
-    title,
-    style: getBaseTextStyle(),
-  );
-}
-
-TextStyle getBaseTextStyle(){
-  return TextStyle(
-    fontSize: 16.0,
-    color: Colors.black,
-  );
-}
-
-//产品分类的title
-Widget getTitle(String title) {
-  return Container(
-    margin: EdgeInsets.only(top: 16.0),
-    child: Row(
-      children: <Widget>[
-        Container(
-          height: 20.0,
-          width: 4.0,
-          color: Color(0xffDFB379),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 12.0),
-          child: Text(title,
-              style: TextStyle(
-                  color: Color(0xff333333),
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold)),
-        )
-      ],
-    ),
-  );
+//基类封装的网络请求函数
+void requestAPI(String action, RequestData requestData, {Map params}) async {
+  //请求网络时将isLoading置为true 展示loading框
+  isLoading = true;
+  RequestAPI().get(action).then((value){
+    //请求结束后将loading框dismiss掉
+    isLoading = false;
+    requestData(value);
+  });
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:htjf_flutter_app/model/config.dart';
 import '../../../base/baseWidget.dart';
 import '../../../model/PrivateProductModel.dart';
+import '../../../base/baseUiWidget.dart' as BaseUI;
 
 class PrivateProductDetail extends BaseStatefulWidget {
   PrivateProductModel model;
@@ -34,14 +35,14 @@ class PrivateProductState extends State {
           child: SingleChildScrollView(
               child: Column(
             children: <Widget>[
-              getDividerLine(),
+              BaseUI.BaseUIWidget().getDividerLine(),
               getDetailHeader(),
               getProductInfoArea(),
-              getDividerLine(),
+              BaseUI.BaseUIWidget().getDividerLine(),
               getAchievementArea(),
-              getDividerLine(),
+              BaseUI.BaseUIWidget().getDividerLine(),
               getProductDescArea(),
-              getDividerLineMargin(),
+              BaseUI.BaseUIWidget().getDividerLineMargin(),
               getProductData()
             ],
           )),

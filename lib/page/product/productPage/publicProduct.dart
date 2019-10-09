@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:htjf_flutter_app/page/product/productPage/productPage.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import '../../../base/baseWidget.dart';
 import '../../details/bannerDetail.dart';
+import '../../../base/baseUiWidget.dart' as BaseUI;
 
 class PublicProduct extends StatefulWidget {
   @override
@@ -95,14 +95,14 @@ class _PublicProduct extends State<PublicProduct> {
         children: <Widget>[
           getBanner(),
           getFunctionArea(),
-          getDividerLineMargin(),
-          getTitle("优选基金"),
+          BaseUI.BaseUIWidget().getDividerLineMargin(),
+          BaseUI.BaseUIWidget().getTitle("优选基金"),
           getGoodFund(),
-          getDividerLineMargin(),
-          getTitle("基金时讯"),
+          BaseUI.BaseUIWidget().getDividerLineMargin(),
+          BaseUI.BaseUIWidget().getTitle("基金时讯"),
           getFundInfo(fundNewInfoList),
-          getDividerLineMargin(),
-          getTitle("基金研报"),
+          BaseUI.BaseUIWidget().getDividerLineMargin(),
+          BaseUI.BaseUIWidget().getTitle("基金研报"),
           getFundInfo(fundReportInfoList),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../base/baseWidget.dart';
 
 typedef InitView = void Function();
 typedef UpdateCallBack = void Function();

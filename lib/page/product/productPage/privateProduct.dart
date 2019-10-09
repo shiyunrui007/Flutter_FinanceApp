@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:htjf_flutter_app/page/product/productPage/productPage.dart';
 import '../../../base/baseWidget.dart';
 import '../../details/bannerDetail.dart';
 import '../../../model/PrivateProductModel.dart';
 import '../../product/productDetail/privateProductDetail.dart';
+import '../../../base/baseUiWidget.dart' as baseUI;
 
 class PrivateProduct extends StatefulWidget {
   @override
@@ -80,14 +80,14 @@ class _PrivateProduct extends State<PrivateProduct> {
         children: <Widget>[
           getBanner(),
           getFunctionArea(),
-          getDividerLineMargin(),
-          getTitle("精品推荐"),
+          baseUI.BaseUIWidget().getDividerLineMargin(),
+          baseUI.BaseUIWidget().getTitle("精品推荐"),
           getRecommendArea(),
-          getDividerLineMargin(),
-          getTitle("猜你喜欢"),
+          baseUI.BaseUIWidget().getDividerLineMargin(),
+          baseUI.BaseUIWidget().getTitle("猜你喜欢"),
           getLikeArea(),
-          getDividerLineMargin(),
-          getTitle("热门私募"),
+          baseUI.BaseUIWidget().getDividerLineMargin(),
+          baseUI.BaseUIWidget().getTitle("热门私募"),
           getHotProductArea()
         ],
       ),

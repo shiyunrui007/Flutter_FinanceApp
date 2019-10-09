@@ -3,7 +3,10 @@ import '../../base/baseWidget.dart';
 import 'package:flutter/material.dart';
 import '../../model/config.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import '../../model/bannerModel.dart';
 import '../details/bannerDetail.dart';
+import '../../base/baseUiWidget.dart' as BaseUI;
+import '../../model/NewsListModel.dart';
 
 class IndexPage extends BaseStatefulWidget {
   @override
@@ -12,7 +15,7 @@ class IndexPage extends BaseStatefulWidget {
   }
 
   @override
-  State<StatefulWidget> setBody() {
+  State setBody() {
     return IndexState();
   }
 }
@@ -20,8 +23,9 @@ class IndexPage extends BaseStatefulWidget {
 class IndexState extends State with TickerProviderStateMixin {
   BuildContext buildContext;
   List<KingKangModel> gridList = new List();
-  List<String> bannerPathList = new List();
-  List<NewsModel> newsList = new List();
+  NewsListModel _newsListModel;
+  //banner相关的model
+  BannerModel _bannerModel;
 
   @override
   void initState() {
@@ -37,50 +41,53 @@ class IndexState extends State with TickerProviderStateMixin {
       ..add(new KingKangModel("assets/images/icon_public_smart.png", "公募智投"))
       ..add(new KingKangModel("assets/images/icon_heng_shop.png", "恒乐汇商场"));
 
-    bannerPathList
-      ..add(
-          "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1569819262416&di=7254832f7be78f0928e44ef21cc02ab8&imgtype=0&src=http%3A%2F%2Fimg.article.pchome.net%2F00%2F23%2F58%2F20%2Fpic_lib%2Fs960x639%2FNBAss_03s960x639.jpg")
-      ..add(
-          "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1569818214412&di=8550f88534b0ee9875ef7f0a9af97251&imgtype=0&src=http%3A%2F%2Fi1.itc.cn%2F20150417%2F2ea2_acf1e278_0f6e_945b_f135_733fe23ccab4_1.jpg")
-      ..add(
-          "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1569819262415&di=e284dd4f860f04fc4840627997cb3e3c&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1302%2F25%2Fc0%2F18396687_1361773021003_800x600.jpg")
-      ..add(
-          "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1569819262414&di=ef13e6f8e93f316397e2c609d0209f03&imgtype=0&src=http%3A%2F%2Fi1.sinaimg.cn%2Fty%2Fup%2F2011-02-05%2FU2028P6T64D79701F1091DT20110205155706.jpg");
+    //test
+    requestAPI("get_banner_info", (value){
+      //请求banner图的数据
+      setState(() {
+        _bannerModel = new BannerModel.fromJson(value);
+      });
+    });
 
-    newsList
-      ..add(new NewsModel(
-          "国海证券,三种技术风格融为一体,你该如何抉择,标题两行展示标题两行展示标题两行展示标题两行展示标题两…", "2019-04-05"))
-      ..add(new NewsModel("国海证券,三种技术风格融为一体.", "2019-04-06"))
-      ..add(new NewsModel(
-          "国海证券,三种技术风格融为一体,你该如何抉择,标题两行展示标题两行展示标题两行展示标题两行展示标题两…", "2019-04-07"))
-      ..add(new NewsModel(
-          "国海证券,三种技术风格融为一体,你该如何抉择,标题两行展示标题两行展示标题两行展示标题两行展示标题两…", "2019-04-08"))
-      ..add(new NewsModel(
-          "国海证券,三种技术风格融为一体,你该如何抉择,标题两行展示标题两行展示标题两行展示标题两行展示标题两…", "2019-04-09"))
-      ..add(new NewsModel(
-          "国海证券,三种技术风格融为一体,你该如何抉择,标题两行展示标题两行展示标题两行展示标题两行展示标题两…", "2019-04-01"));
+    requestAPI("get_news_list", (value){
+      //请求新闻列表的数据
+      setState(() {
+        _newsListModel = new NewsListModel.fromJson(value);
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    buildContext = context;
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          getRow(),
-          getGrideView(),
-          getDividerLine(),
-          getBanner(),
-          getNewsView(),
-          getMoreInfo(),
-          getDividerLine(),
-          getTitle("精选专题"),
-          getSelectedTopic(),
-          getDividerLineMargin(),
-          getTitle("平台资质"),
-          getQualifications()
-        ],
-      ),
+    return getBody();
+  }
+
+  Widget getBody(){
+    return Stack(
+      children: <Widget>[
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              getRow(),
+              getGrideView(),
+              BaseUI.BaseUIWidget().getDividerLine(),
+              getBanner(),
+              getNewsView(),
+              getMoreInfo(),
+              BaseUI.BaseUIWidget().getDividerLine(),
+              BaseUI.BaseUIWidget().getTitle("精选专题"),
+              getSelectedTopic(),
+              BaseUI.BaseUIWidget().getDividerLineMargin(),
+              BaseUI.BaseUIWidget().getTitle("平台资质"),
+              getQualifications()
+            ],
+          ),
+        ),
+        Offstage(
+          offstage: !isLoading,
+          child: getLoadingWidget(),
+        )
+      ],
     );
   }
 
@@ -92,7 +99,7 @@ class IndexState extends State with TickerProviderStateMixin {
           shrinkWrap: true,
           itemCount: gridList.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //横向数量
+            //横向数量
               crossAxisCount: 4,
               childAspectRatio: 5 / 4),
           itemBuilder: (BuildContext context, int index) {
@@ -131,7 +138,7 @@ class IndexState extends State with TickerProviderStateMixin {
         labelStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         //未选中的字体样式
         unselectedLabelStyle:
-            TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+        TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
         //选中的字体颜色
         labelColor: Color(0xffDFB379),
         //未选中的字体颜色
@@ -163,44 +170,52 @@ class IndexState extends State with TickerProviderStateMixin {
     );
   }
 
-  Widget getNewsListView(int index) {
+  Widget getNewsListViewArea() {
     return Container(
-        child: ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          margin: EdgeInsets.only(left: 16),
-          padding: EdgeInsets.only(right: 16, top: 12, bottom: 12),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color: Color(0xffeeeeee), width: 0.5))),
-          child: Column(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  newsList[index].title + index.toString(),
-                  style: TextStyle(fontSize: 14, color: Color(0xff222222)),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+        child: getNewsListView());
+  }
+
+  Widget getNewsListView(){
+    if (_newsListModel != null && _newsListModel.newsList.isNotEmpty){
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            margin: EdgeInsets.only(left: 16),
+            padding: EdgeInsets.only(right: 16, top: 12, bottom: 12),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(color: Color(0xffeeeeee), width: 0.5))),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    _newsListModel.newsList[index].title + index.toString(),
+                    style: TextStyle(fontSize: 14, color: Color(0xff222222)),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(top: 12),
-                child: Text(
-                  newsList[index].data,
-                  style: TextStyle(fontSize: 12, color: Color(0xff999999)),
-                  textAlign: TextAlign.left,
-                ),
-              )
-            ],
-          ),
-        );
-      },
-      itemCount: newsList.length,
-    ));
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(top: 12),
+                  child: Text(
+                    _newsListModel.newsList[index].date,
+                    style: TextStyle(fontSize: 12, color: Color(0xff999999)),
+                    textAlign: TextAlign.left,
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+        itemCount: _newsListModel.newsList.length,
+      );
+    } else {
+      return SizedBox();
+    }
   }
 
   Widget getNewsView() {
@@ -224,13 +239,7 @@ class IndexState extends State with TickerProviderStateMixin {
   Widget getNewsPageView() {
     return Container(
       alignment: Alignment.topCenter,
-//      child: PageView.builder(
-//        physics: NeverScrollableScrollPhysics(),
-//          itemCount: 3,
-//          itemBuilder: (context, index) {
-//            return getNewsListView(index);
-//          }),
-      child: getNewsListView(0),
+      child: getNewsListViewArea(),
     );
   }
 
@@ -240,20 +249,27 @@ class IndexState extends State with TickerProviderStateMixin {
       height: 80.0,
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        child: Swiper(
-          itemCount: bannerPathList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Image.network(bannerPathList[index], fit: BoxFit.fill);
-          },
-          autoplay: true,
-          autoplayDelay: 2000,
-          autoplayDisableOnInteraction: true,
-          duration: 500,
-          controller: SwiperController(),
-          plugins: <SwiperPlugin>[],
-        ),
+        child: getSwiper()
       ),
     );
+  }
+
+  Widget getSwiper(){
+    if (_bannerModel != null && _bannerModel.bannerList.isNotEmpty){
+      return Swiper(
+        itemCount: _bannerModel.bannerList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Image.network(_bannerModel.bannerList[index].imgPath, fit: BoxFit.fill);
+        },
+        autoplay: true,
+        autoplayDelay: 2000,
+        autoplayDisableOnInteraction: true,
+        duration: 500,
+        plugins: <SwiperPlugin>[],
+      );
+    } else {
+      return SizedBox();
+    }
   }
 
   Widget getRow() {
@@ -373,11 +389,4 @@ class KingKangModel {
   KingKangModel(this.imgPath, this.title);
 
   void tapListener() {}
-}
-
-class NewsModel {
-  String title;
-  String data;
-
-  NewsModel(this.title, this.data);
 }
