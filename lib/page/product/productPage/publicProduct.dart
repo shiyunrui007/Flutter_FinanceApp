@@ -3,6 +3,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import '../../../base/baseWidget.dart';
 import '../../details/bannerDetail.dart';
 import '../../../base/baseUiWidget.dart' as BaseUI;
+import '../../details/newsDetail.dart';
 
 class PublicProduct extends StatefulWidget {
   @override
@@ -302,36 +303,41 @@ class _PublicProduct extends State<PublicProduct> {
     } else {
       desc = model.data;
     }
-    return Container(
-      decoration: BoxDecoration(
-          border: index == list.length - 1
-              ? null
-              : Border(bottom: BorderSide(color: Color(0xffeeeeee)))),
+    return GestureDetector(
       child: Container(
-        padding: EdgeInsets.only(top: 16, bottom: 12),
-        child: Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                model.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 14, color: Color(0xff222222)),
-              ),
-            )
-            ,
-            Container(
-              margin: EdgeInsets.only(top: 12),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                desc,
-                style: TextStyle(fontSize: 12, color: Color(0xff999999)),
-              ),
-            )
-          ],
+        decoration: BoxDecoration(
+            border: index == list.length - 1
+                ? null
+                : Border(bottom: BorderSide(color: Color(0xffeeeeee)))),
+        child: Container(
+          padding: EdgeInsets.only(top: 16, bottom: 12),
+          child: Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  model.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 14, color: Color(0xff222222)),
+                ),
+              )
+              ,
+              Container(
+                margin: EdgeInsets.only(top: 12),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  desc,
+                  style: TextStyle(fontSize: 12, color: Color(0xff999999)),
+                ),
+              )
+            ],
+          ),
         ),
       ),
+      onTap: (){
+        switchNextPage(context, NewsDetail("http://www.jnlc.com/article/20191012248576.shtml"));
+      },
     );
   }
 }

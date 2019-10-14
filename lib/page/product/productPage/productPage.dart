@@ -40,7 +40,6 @@ class bodyWidget extends State with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       children: <Widget>[getTabView(), getPageView()],
     );

@@ -7,6 +7,8 @@ import '../../model/bannerModel.dart';
 import '../details/bannerDetail.dart';
 import '../../base/baseUiWidget.dart' as BaseUI;
 import '../../model/NewsListModel.dart';
+import '../../page/product/productDetail/publicProductDetail.dart';
+import '../details/newsDetail.dart';
 
 class IndexPage extends BaseStatefulWidget {
   @override
@@ -41,7 +43,6 @@ class IndexState extends State with TickerProviderStateMixin {
       ..add(new KingKangModel("assets/images/icon_public_smart.png", "公募智投"))
       ..add(new KingKangModel("assets/images/icon_heng_shop.png", "恒乐汇商场"));
 
-    //test
     requestAPI("get_banner_info", (value){
       //请求banner图的数据
       setState(() {
@@ -181,34 +182,39 @@ class IndexState extends State with TickerProviderStateMixin {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            margin: EdgeInsets.only(left: 16),
-            padding: EdgeInsets.only(right: 16, top: 12, bottom: 12),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(color: Color(0xffeeeeee), width: 0.5))),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    _newsListModel.newsList[index].title + index.toString(),
-                    style: TextStyle(fontSize: 14, color: Color(0xff222222)),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+          return GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(left: 16),
+              padding: EdgeInsets.only(right: 16, top: 12, bottom: 12),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: Color(0xffeeeeee), width: 0.5))),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      _newsListModel.newsList[index].title + index.toString(),
+                      style: TextStyle(fontSize: 14, color: Color(0xff222222)),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(top: 12),
-                  child: Text(
-                    _newsListModel.newsList[index].date,
-                    style: TextStyle(fontSize: 12, color: Color(0xff999999)),
-                    textAlign: TextAlign.left,
-                  ),
-                )
-              ],
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(top: 12),
+                    child: Text(
+                      _newsListModel.newsList[index].date,
+                      style: TextStyle(fontSize: 12, color: Color(0xff999999)),
+                      textAlign: TextAlign.left,
+                    ),
+                  )
+                ],
+              ),
             ),
+            onTap: (){
+              switchNextPage(context, NewsDetail("http://www.jnlc.com/article/20191012248576.shtml"));
+            },
           );
         },
         itemCount: _newsListModel.newsList.length,
@@ -281,7 +287,8 @@ class IndexState extends State with TickerProviderStateMixin {
           new GestureDetector(
             child: Image.asset("assets/images/index_header_1.png",
                 width: 100, height: 50),
-            onTap: () {},
+            onTap: () {
+            },
           ),
           new GestureDetector(
             child: Image.asset("assets/images/index_header_2.png",

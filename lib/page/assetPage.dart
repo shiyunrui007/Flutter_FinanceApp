@@ -2,6 +2,7 @@ import '../base/baseWidget.dart';
 import 'package:flutter/material.dart';
 import '../model/config.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'product/productDetail/publicProductDetail.dart';
 
 class AssetPage extends BaseStatefulWidget {
   @override
@@ -204,30 +205,37 @@ class AssetState extends State {
     );
   }
 
-  Widget getAssetDetailItem(AssetDetailModel model){
-    return Container(
-      child: Stack(
-      overflow: Overflow.clip,
-      children: <Widget>[
-        Positioned(
-          top: 17,
-          child: Container(
-            color: Color(model.color),
-            width: 10,
-            height: 10,
-          ),
+  Widget getAssetDetailItem(AssetDetailModel model) {
+    return GestureDetector(
+      onTap: () {
+        switchNextPage(context, PublicProductDetail(model.valueDesc, model.title));
+      },
+      child: Container(
+        child: Stack(
+          overflow: Overflow.clip,
+          children: <Widget>[
+            Positioned(
+              top: 17,
+              child: Container(
+                color: Color(model.color),
+                width: 10,
+                height: 10,
+              ),
+            ),
+            Positioned(
+              top: 12,
+              left: 16,
+              child: Text(model.title,
+                style: TextStyle(fontSize: 13, color: Color(0xff82878D)),),
+            ),
+            Positioned(
+              top: 32,
+              child: Text(model.valueDesc,
+                style: TextStyle(fontSize: 13, color: Color(0xff333333)),),
+            )
+          ],
         ),
-        Positioned(
-          top: 12,
-          left: 16,
-          child: Text(model.title, style: TextStyle(fontSize: 13, color: Color(0xff82878D)),),
-        ),
-        Positioned(
-          top: 32,
-          child: Text(model.valueDesc, style: TextStyle(fontSize: 13, color: Color(0xff333333)),),
-        )
-      ],
-    ),
+      ),
     );
   }
 }
