@@ -1,7 +1,10 @@
-# htjf_flutter_app
+# 纯Flutter开发 金融类型App
 
-金融类型的App，涉及了金融类app的基本功能。是本人边学习边开发的项目，希望大家可以一起进步。
+<div>
+    <img src="https://github.com/shiyunrui007/Flutter_FinanceApp/blob/master/assets/images/git_show/index.jpg" width = "100" style="vertical-align:text-top"/><img src="https://github.com/shiyunrui007/Flutter_FinanceApp/blob/master/assets/images/git_show/private.jpg" width = "100"/><img src="https://github.com/shiyunrui007/Flutter_FinanceApp/blob/master/assets/images/git_show/public.jpg" width = "100"/><img src="https://github.com/shiyunrui007/Flutter_FinanceApp/blob/master/assets/images/git_show/asset.jpg" width = "100"/><img src="https://github.com/shiyunrui007/Flutter_FinanceApp/blob/master/assets/images/git_show/asset_detail.jpg" width = "100"/><img src="https://github.com/shiyunrui007/Flutter_FinanceApp/blob/master/assets/images/git_show/news.jpg" width = "100" style="vertical-align:text-top"/><img src="https://github.com/shiyunrui007/Flutter_FinanceApp/blob/master/assets/images/git_show/mine.jpg" width = "100"/>
+</div>
 
-# v1.1.0
+# 项目介绍
 
-第一次提交，搭建了基本的页面和实现了一些点击，数据都是本地写死的，下一步改成mock数据，并且实现所有的点击事件。
+上图中从左到右，分别为首页、私募产品、公募产品、资产列表、资产详情、新闻资讯、我的 几个模块
+
