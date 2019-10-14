@@ -25,7 +25,7 @@ class BannerState extends State{
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: getImg(imgPath)
+      child: getImg(imgPath)
     );
   }
 

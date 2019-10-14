@@ -87,6 +87,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: '恒天财富Flutter',
       home: new BottomNavigationWidget(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

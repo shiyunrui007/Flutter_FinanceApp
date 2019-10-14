@@ -7,7 +7,6 @@ import '../../model/bannerModel.dart';
 import '../details/bannerDetail.dart';
 import '../../base/baseUiWidget.dart' as BaseUI;
 import '../../model/NewsListModel.dart';
-import '../../page/product/productDetail/publicProductDetail.dart';
 import '../details/newsDetail.dart';
 
 class IndexPage extends BaseStatefulWidget {
@@ -265,7 +264,12 @@ class IndexState extends State with TickerProviderStateMixin {
       return Swiper(
         itemCount: _bannerModel.bannerList.length,
         itemBuilder: (BuildContext context, int index) {
-          return Image.network(_bannerModel.bannerList[index].imgPath, fit: BoxFit.fill);
+          return GestureDetector(
+            child: Image.network(_bannerModel.bannerList[index].imgPath, fit: BoxFit.fill),
+            onTap: (){
+              switchNextPage(context, BannerDetail(_bannerModel.bannerList[index].imgPath));
+            },
+          );
         },
         autoplay: true,
         autoplayDelay: 2000,

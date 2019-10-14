@@ -44,10 +44,9 @@ class _NewsList extends State{
     _scrollController = ScrollController();
     _scrollController.addListener((){
       //test
-      if (_currentPage == 3){
+      if (_currentPage == 1){
         _noMoreData = true;
       }
-
 
       if (_noMoreData){
         //无更多数据了 不允许上拉加载更多了
